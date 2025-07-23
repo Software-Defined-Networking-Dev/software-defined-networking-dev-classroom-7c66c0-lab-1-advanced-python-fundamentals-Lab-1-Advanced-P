@@ -1,0 +1,124 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: JSON Parsed Correctly
+      id: json-parsed-correctly
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: JSON Parsed Correctly
+        setup-command: ''
+        command: grep -q "PARSE_JSON_SUCCESS" logs/lab.log
+        input: ''
+        expected-output: PARSE_JSON_SUCCESS
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: YAML Parsed Correctly
+      id: yaml-parsed-correctly
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: YAML Parsed Correctly
+        setup-command: ''
+        command: grep -q "PARSE_YAML_SUCCESS" logs/lab.log
+        input: ''
+        expected-output: PARSE_YAML_SUCCESS
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: XML Parsed Correctly
+      id: xml-parsed-correctly
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: XML Parsed Correctly
+        setup-command: ''
+        command: grep -q "PARSE_XML_SUCCESS" logs/lab.log
+        input: ''
+        expected-output: PARSE_XML_SUCCESS
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: CSV Parsed Correctly
+      id: csv-parsed-correctly
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: CSV Parsed Correctly
+        setup-command: ''
+        command: grep -q "PARSE_CSV_SUCCESS" logs/lab.log
+        input: ''
+        expected-output: PARSE_CSV_SUCCESS
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Device Summary Message
+      id: device-summary-message
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Device Summary Message
+        setup-command: ''
+        command: grep -q "DEVICE_SUMMARY" logs/lab.log
+        input: ''
+        expected-output: DEVICE_SUMMARY
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Interface Message
+      id: interface-message
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Interface Message
+        setup-command: ''
+        command: grep -q "INTERFACE_MSG" logs/lab.log
+        input: ''
+        expected-output: INTERFACE_MSG
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Device Message
+      id: device-message
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Device Message
+        setup-command: ''
+        command: grep -q "DEVICE_MSG" logs/lab.log
+        input: ''
+        expected-output: DEVICE_MSG
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: VLAN Message
+      id: vlan-message
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: VLAN Message
+        setup-command: ''
+        command: grep -q "VLAN_MSG" logs/lab.log
+        input: ''
+        expected-output: VLAN_MSG
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        JSON-PARSED-CORRECTLY_RESULTS: "${{steps.json-parsed-correctly.outputs.result}}"
+        YAML-PARSED-CORRECTLY_RESULTS: "${{steps.yaml-parsed-correctly.outputs.result}}"
+        XML-PARSED-CORRECTLY_RESULTS: "${{steps.xml-parsed-correctly.outputs.result}}"
+        CSV-PARSED-CORRECTLY_RESULTS: "${{steps.csv-parsed-correctly.outputs.result}}"
+        DEVICE-SUMMARY-MESSAGE_RESULTS: "${{steps.device-summary-message.outputs.result}}"
+        INTERFACE-MESSAGE_RESULTS: "${{steps.interface-message.outputs.result}}"
+        DEVICE-MESSAGE_RESULTS: "${{steps.device-message.outputs.result}}"
+        VLAN-MESSAGE_RESULTS: "${{steps.vlan-message.outputs.result}}"
+      with:
+        runners: json-parsed-correctly,yaml-parsed-correctly,xml-parsed-correctly,csv-parsed-correctly,device-summary-message,interface-message,device-message,vlan-message
