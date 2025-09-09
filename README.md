@@ -16,79 +16,17 @@ From a network automation perspective, we leverage more advanced features in Pyt
 - NETCONF = XML (The NETCONF protocol uses XML to write its requests and return results)
 - INVENTORY = CSV (Many appliances and automation tools uses CSV files to pass in the inventory of devices)
 
-### :wrench: Python Functions
-Building off the Basics in Python from your Scripting course one, of the most useful features of Python is the ability to write your own functions(). A `Python Function` is simply a block of code that you can reuse. Rather than write giant single execution programs, we break the code up into smaller blocks that we call functions(). A function can take different inputs, known as arguments, such as variables, lists, dictionaries, and tuples, as input that will be passed to the function upon execution. Functions do not require arguments to be passed in, but it is common to see. For example, a simple function that prints a message does not need anything else to execute successfully, whereas a custom message that would require, say, a device hostname as part of the message will need that hostname passed in at runtime. 
-
-### :package: Python Objects
-
-A Python object is a defined Class where the attributes of the class help to define an object. For example, if I define an object as `Class Switch:` I may include attributes such as hostname, vendor, IP, vlans, and STP Priority, where a `Class Router:` would include attributes such as hostname, vendor, IP, routing protocol, and router-id. Additionally, you can add Methods to your Classes, which are simply functions that relate to the Class. So if I created a method for my Switch: Class, I would create a method such as `def configure_access_port(interface)` or for my Router Class `def configure_static_route(route)`. Notice the methods are just functions about whatever they are specific to the Class Object. A switch switches packets on a layer 2 network, and a router routes packets across a layer 3 network. 
-
-### :rotating_light: Exceptions and Error Handling
-
-There may be times when our code is going to fail.  When a block of code fails, you receive two things of importance: 1) The traceback on where the failure occured in the code. 2) The Exception that was raised, which can be translated to the error message. When an Exception is raised in Python, it halts the execution of the code where it is and produces these two items. However, what if we don't want our entire program to fail based on a minor error? This is where Error Handling and Exceptions come in. Using Python's built-in `Try:...Except:` features you can gracefully handle the error and how you want the program to proceed, whether that be printing the error to a file, stopping the program, or doing nothing and continuing with the code execution.
-
-### :page_facing_up: Logging
-
-A note on the logging syntax you see here. It is usually a good idea to capture all your logs to a file and export them to a central logging system. Although we are not going to go too deep on logging, know it is a standard feature and procedure when writing your code to write the logs to a file. We are doing it here for a very important reason, which is **THE LOGS WRITTEN TO THE LOG FILE ARE WHAT IS USED TO DETERMINE YOUR GRADE!!!** If your script does not produce any logs to the log file, the file will be blank, and therefore, you will not receive credit for your work. Under each instruction, I will inform you where you are to insert a logging message so I know the program executed with all the requirements.
-
-### JSON
-JSON stands for JavaScript Object Notation and is heavily adopted in the industry, especially for programming against APIs. JSON is represented as key:value pairs and is structured exactly the same as a Python Dictionary. Below is a JSON Object that contains two network devices and is represented by their IP and device type. 
-
-```json
-[
-  {
-    "hostname": "core-sw01",
-    "ip": "192.168.1.1",
-    "type": "Switch"
-  },
-  {
-    "hostname": "edge-fw01",
-    "ip": "192.168.1.254",
-    "type": "Firewall"
-  }
-]
-```
-
-### YAML
-YAML or YAML Ain't Markup Language is a component of JSON that is meant for better readability by humans. It utilizes indentation to represent variables, lists, and dictionaries. Since it is a component of JSON, any valid YAML file is also a valid JSON file. Below is a YAML Object that contains a list of interfaces and their attributes.
-
-```yaml
-interfaces:
-  - name: Gig0/1
-    status: up
-    vlan: 10
-  - name: Gig0/2
-    status: down
-    vlan: 20
-```
-
-### XML
-XML has been available to network engineers for a long time already. The Cisco Nexus platform, Juniper, and Palo Alto all represent their configuration in XML. Even the entire language of web pages, `HTML`, is XML. XML is not very human-readable, but great for machines to process. It uses the concept of tags `<>` and nested objects to represent their information. Every tag that is created must also be accompanied by a closing tag. Below we see some XML to represent a list of VLANS.
-
-```xml
-<vlans>
-  <vlan>
-    <id>10</id>
-    <name>Users</name>
-  </vlan>
-  <vlan>
-    <id>20</id>
-    <name>Servers</name>
-  </vlan>
-</vlans>
-```
-
-### CSV
-Finally, CSV or Comma Separated Values is simply a list of items where the first line of the file represents the headers and each line represents a single object's attributes. Each attribute is separated by a comma as seen below.
-
-```csv
-hostname,location,role
-core-sw01,DataCenter,Switch
-edge-fw01,Branch,Firewall
-```
-
+For a Python refresher, review the following sections before completing the lab:
+- [Python Functions](#wrench-python-functions)
+- [Python Objects](#package-python-objects)
+- [Exceptions and Error Handling](#rotating_light-exceptions-and-error-handling)
+- [Logging](#page_facing_up-logging)
+- [JSON](#json)
+- [YAML](#yaml)
+- [XML](#xml)
+- [CSV](#csv)
+  
 ---
-
 ## :card_file_box: File Structure:
 
 It is important to start to understand the file structure for a given project. In Python, we break our Classes, Data, and Functions into separate files and import them as modules to their respective code base. This eventually leaves you with a simple few lines of code called the `main guard` that will kick off the script, typically represented as `if __name__ == __main__: main()` which says if the system variable of `__name__` is equal to `__main__`  is true then the file being executed is referenced as the main file. For example, if the file is named "script.py" and I run the command `python script.py` the system variable will set `__name__` equal to `__main__` and we declare our main() function in this file which references our other files on import. You will see examples of this throughout this course and is the standard in Python. 
@@ -176,7 +114,6 @@ def main():                       #This defines our main function which should b
 if __name__ == '__main__':  #The starting point for our code called the name-main idiom only true if this is the main file
     main()                  #Executes the main function
 ```
-
 ---
 ## :memo: Instructions
 
@@ -202,6 +139,79 @@ if __name__ == '__main__':  #The starting point for our code called the name-mai
 - 5 pts: YAML Interface message (`DEVICE_MSG` log)
 - 5 pts: YAML parsed correctly (`PARSE_XML_SUCCESS` log)
 - 5 pts: YAML Interface message (`VLAN_MSG` log)
+---
+
+---
+### :wrench: Python Functions
+Building off the Basics in Python from your Scripting course one, of the most useful features of Python is the ability to write your own functions(). A `Python Function` is simply a block of code that you can reuse. Rather than write giant single execution programs, we break the code up into smaller blocks that we call functions(). A function can take different inputs, known as arguments, such as variables, lists, dictionaries, and tuples, as input that will be passed to the function upon execution. Functions do not require arguments to be passed in, but it is common to see. For example, a simple function that prints a message does not need anything else to execute successfully, whereas a custom message that would require, say, a device hostname as part of the message will need that hostname passed in at runtime. 
+
+### :package: Python Objects
+
+A Python object is a defined Class where the attributes of the class help to define an object. For example, if I define an object as `Class Switch:` I may include attributes such as hostname, vendor, IP, vlans, and STP Priority, where a `Class Router:` would include attributes such as hostname, vendor, IP, routing protocol, and router-id. Additionally, you can add Methods to your Classes, which are simply functions that relate to the Class. So if I created a method for my Switch: Class, I would create a method such as `def configure_access_port(interface)` or for my Router Class `def configure_static_route(route)`. Notice the methods are just functions about whatever they are specific to the Class Object. A switch switches packets on a layer 2 network, and a router routes packets across a layer 3 network. 
+
+### :rotating_light: Exceptions and Error Handling
+
+There may be times when our code is going to fail.  When a block of code fails, you receive two things of importance: 1) The traceback on where the failure occured in the code. 2) The Exception that was raised, which can be translated to the error message. When an Exception is raised in Python, it halts the execution of the code where it is and produces these two items. However, what if we don't want our entire program to fail based on a minor error? This is where Error Handling and Exceptions come in. Using Python's built-in `Try:...Except:` features you can gracefully handle the error and how you want the program to proceed, whether that be printing the error to a file, stopping the program, or doing nothing and continuing with the code execution.
+
+### :page_facing_up: Logging
+
+A note on the logging syntax you see here. It is usually a good idea to capture all your logs to a file and export them to a central logging system. Although we are not going to go too deep on logging, know it is a standard feature and procedure when writing your code to write the logs to a file. We are doing it here for a very important reason, which is **THE LOGS WRITTEN TO THE LOG FILE ARE WHAT IS USED TO DETERMINE YOUR GRADE!!!** If your script does not produce any logs to the log file, the file will be blank, and therefore, you will not receive credit for your work. Under each instruction, I will inform you where you are to insert a logging message so I know the program executed with all the requirements.
+
+### JSON
+JSON stands for JavaScript Object Notation and is heavily adopted in the industry, especially for programming against APIs. JSON is represented as key:value pairs and is structured exactly the same as a Python Dictionary. Below is a JSON Object that contains two network devices and is represented by their IP and device type. 
+
+```json
+[
+  {
+    "hostname": "core-sw01",
+    "ip": "192.168.1.1",
+    "type": "Switch"
+  },
+  {
+    "hostname": "edge-fw01",
+    "ip": "192.168.1.254",
+    "type": "Firewall"
+  }
+]
+```
+
+### YAML
+YAML or YAML Ain't Markup Language is a component of JSON that is meant for better readability by humans. It utilizes indentation to represent variables, lists, and dictionaries. Since it is a component of JSON, any valid YAML file is also a valid JSON file. Below is a YAML Object that contains a list of interfaces and their attributes.
+
+```yaml
+interfaces:
+  - name: Gig0/1
+    status: up
+    vlan: 10
+  - name: Gig0/2
+    status: down
+    vlan: 20
+```
+
+### XML
+XML has been available to network engineers for a long time already. The Cisco Nexus platform, Juniper, and Palo Alto all represent their configuration in XML. Even the entire language of web pages, `HTML`, is XML. XML is not very human-readable, but great for machines to process. It uses the concept of tags `<>` and nested objects to represent their information. Every tag that is created must also be accompanied by a closing tag. Below we see some XML to represent a list of VLANS.
+
+```xml
+<vlans>
+  <vlan>
+    <id>10</id>
+    <name>Users</name>
+  </vlan>
+  <vlan>
+    <id>20</id>
+    <name>Servers</name>
+  </vlan>
+</vlans>
+```
+
+### CSV
+Finally, CSV or Comma Separated Values is simply a list of items where the first line of the file represents the headers and each line represents a single object's attributes. Each attribute is separated by a comma as seen below.
+
+```csv
+hostname,location,role
+core-sw01,DataCenter,Switch
+edge-fw01,Branch,Firewall
+```
 ---
 
 
