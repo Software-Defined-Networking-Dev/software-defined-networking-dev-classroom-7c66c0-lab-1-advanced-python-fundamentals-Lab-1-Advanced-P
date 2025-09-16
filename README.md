@@ -88,7 +88,7 @@ class NetworkDevice: #Define our Class object of NetworkDevice
 ##### 2. **Functions and Error Handling** (`parser_utils.py`)
 A Python function is a block of code that can be called after it is defined. As a best practice, you typically want to break up as much of your code as possible into multiple functions. As a general guideline you should aim to have your functions be no longer than 20-30 lines of code. Most of the time, you will need to pass information into your function so it can perform some type of logic on the data. In the function below, we pass a path argument into the function `parse_json()`. With a path to a JSON file passed into the function, the code attempts to open the file in read mode and load the data as a Python object to be worked with.
 
-**Exceptions and Error Handling**  
+##### **Exceptions and Error Handling**  
 You will notice in this function the use of the syntax `try:` and `except`, which is a Python feature that allows you to gracefully handle errors in your code without it crashing the entire program. In our example below, the function starts with the `try:` statement, essentially saying "Try to open the file at this path and load the JSON data to convert it to a Python object. If the path to a valid JSON file is correct, the code executes as designed and returns the resulting Python object. If the path is invalid, say the file does not exist or is not a valid JSON file, the program won't crash with a Traceback and Exception message. Instead, it will create an error log message, attaching the error to the log message, and returns nothing.
 ```python
 import json, yaml, xml.etree.ElementTree as ET, csv, logging
