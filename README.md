@@ -15,19 +15,31 @@ From a network automation perspective, we leverage more advanced features in Pyt
 - REST API Calls = JSON (Requests to Restful API Servers are written and results returned in JSON)
 - NETCONF = XML (The NETCONF protocol uses XML to write its requests and return results)
 - INVENTORY = CSV (Many appliances and automation tools uses CSV files to pass in the inventory of devices)
-
-For a Python refresher, review the following sections before completing the lab:
-- [Python Functions](#wrench-python-functions)
-- [Python Objects](#package-python-objects)
-- [Exceptions and Error Handling](#rotating_light-exceptions-and-error-handling)
-- [Logging](#page_facing_up-logging)
-- [JSON](#json)
-- [YAML](#yaml)
-- [XML](#xml)
-- [CSV](#csv)
-  
 ---
-## :card_file_box: File Structure:
+## :memo: Instructions
+
+1. Build off the program that was provided to you. 
+2. In the `main()` function, create Python objects using the parsers that were defined in the `parser_utils.py` file and the structured data in the data directory. This will be a Python object of an inventory of devices, list of vlans, and network interfaces.
+3. Utilizing whatever technique you wish the program should print the below messages to the terminal by accessing each object. Note: that below has a placeholder for the attribute, but your program should print the actual value of the attribute. 
+    - `Interface { interface.name } is { interface.status }`
+    - `Device { device.hostname } is a { device.location } { device.role }`
+    - `VLAN { vlan.id } is the { vlan.name }`
+4. Under each print statement, include an INFO log message to create a log message for each of the statements to the log file. The syntax for this is provided below. You only need to change the name of the message object.
+    - `logging.info(f"INTERFACE_MSG: {msg}")`
+    - `logging.info(f"DEVICE_MSG: {msg}")`
+    - `logging.info(f"VLAN_MSG: {msg}")`
+
+### ✅ Grading Points Breakdown (example)
+- 5 pts: JSON parsed correctly (`PARSE_JSON_SUCCESS` log)
+- 5 pts: At least one device summarized (`DEVICE_SUMMARY` log)
+- 5 pts: YAML parsed correctly (`PARSE_YAML_SUCCESS` log)
+- 5 pts: YAML Interface message (`INTERFACE_MSG` log)
+- 5 pts: YAML parsed correctly (`PARSE_CSV_SUCCESS` log)
+- 5 pts: YAML Interface message (`DEVICE_MSG` log)
+- 5 pts: YAML parsed correctly (`PARSE_XML_SUCCESS` log)
+- 5 pts: YAML Interface message (`VLAN_MSG` log)
+---
+### :card_file_box: File Structure:
 
 It is important to start to understand the file structure for a given project. In Python, we break our Classes, Data, and Functions into separate files and import them as modules to their respective code base. This eventually leaves you with a simple few lines of code called the `main guard` that will kick off the script, typically represented as `if __name__ == __main__: main()` which says if the system variable of `__name__` is equal to `__main__`  is true then the file being executed is referenced as the main file. For example, if the file is named "script.py" and I run the command `python script.py` the system variable will set `__name__` equal to `__main__` and we declare our main() function in this file which references our other files on import. You will see examples of this throughout this course and is the standard in Python. 
 
@@ -54,11 +66,9 @@ network-automation-lab/
 └── requirements.txt
 ```
 
----
+#### File Structure Components:
 
-## Components:
-
-### 1. **Classes and Methods** (`network_device.py`)
+##### 1. **Classes and Methods** (`network_device.py`)
 In Python, we define objects by defining the class. Think of an object as a way to represent anything in the real world. The attributes help to describe the object. Inside an object we can also define methods, which are functions that are related to our object.
 ```python
 import logging #This is where we import the built-in python logging module
@@ -75,7 +85,7 @@ class NetworkDevice: #Define our Class object of NetworkDevice
         return msg        #Returns the output to the source code that called it
 ```
 
-### 2. **Functions and Error Handling** (`parser_utils.py`)
+##### 2. **Functions and Error Handling** (`parser_utils.py`)
 A Python function is a block of code that can be called after it is defined. As a best practice, you typically want to break up as much of your code as possible into multiple functions. As a general guideline you should aim to have your functions be no longer than 20-30 lines of code. Most of the time, you will need to pass information into your function so it can perform some type of logic on the data. In the function below, we pass a path argument into the function `parse_json()`. With a path to a JSON file passed into the function, the code attempts to open the file in read mode and load the data as a Python object to be worked with.
 
 **Exceptions and Error Handling**  
@@ -96,7 +106,7 @@ def parse_json(path):
 # Similar functions for YAML, XML, CSV
 ```
 
-### 3. **Main Application** (`main.py`)
+##### 3. **Main Application** (`main.py`)
 In the main application file, we need to import all of our functions and classes so they can be utilized by the main program. Here we define our `main()` function, which is where the main logic of your program executes. To put this all into perspective, we could have declared all of our functions and classes in a single Python file, or not broken up our code at all and made a single long program on one page. This is, however, a bad practice and fails to take advatage of Python's object-oriented nature, where we break up our objects and the logic of our code into classes and functions. Here we import them all to run the main purpose of our program, in this case importing a network device as a static structured data file and summarize the device.
 ```python
 import logging  #Imports logging as we are logging all of our codes output to a log file. 
@@ -115,32 +125,15 @@ if __name__ == '__main__':  #The starting point for our code called the name-mai
     main()                  #Executes the main function
 ```
 ---
-## :memo: Instructions
-
-1. Build off the program that was provided to you. 
-2. In the `main()` function, create Python objects using the parsers that were defined in the `parser_utils.py` file and the structured data in the data directory. This will be a Python object of an inventory of devices, list of vlans, and network interfaces.
-3. Utilizing whatever technique you wish the program should print the below messages to the terminal by accessing each object. Note: that below has a placeholder for the attribute, but your program should print the actual value of the attribute. 
-    - `Interface { interface.name } is { interface.status }`
-    - `Device { device.hostname } is a { device.location } { device.role }`
-    - `VLAN { vlan.id } is the { vlan.name }`
-4. Under each print statement, include an INFO log message to create a log message for each of the statements to the log file. The syntax for this is provided below. You only need to change the name of the message object.
-    - `logging.info(f"INTERFACE_MSG: {msg}")`
-    - `logging.info(f"DEVICE_MSG: {msg}")`
-    - `logging.info(f"VLAN_MSG: {msg}")`
-
----
-
-## ✅ Grading Points Breakdown (example)
-- 5 pts: JSON parsed correctly (`PARSE_JSON_SUCCESS` log)
-- 5 pts: At least one device summarized (`DEVICE_SUMMARY` log)
-- 5 pts: YAML parsed correctly (`PARSE_YAML_SUCCESS` log)
-- 5 pts: YAML Interface message (`INTERFACE_MSG` log)
-- 5 pts: YAML parsed correctly (`PARSE_CSV_SUCCESS` log)
-- 5 pts: YAML Interface message (`DEVICE_MSG` log)
-- 5 pts: YAML parsed correctly (`PARSE_XML_SUCCESS` log)
-- 5 pts: YAML Interface message (`VLAN_MSG` log)
----
-
+## Python Refresher Information
+- [Python Functions](#wrench-python-functions)
+- [Python Objects](#package-python-objects)
+- [Exceptions and Error Handling](#rotating_light-exceptions-and-error-handling)
+- [Logging](#page_facing_up-logging)
+- [JSON](#json)
+- [YAML](#yaml)
+- [XML](#xml)
+- [CSV](#csv)
 ---
 ### :wrench: Python Functions
 Building off the Basics in Python from your Scripting course one, of the most useful features of Python is the ability to write your own functions(). A `Python Function` is simply a block of code that you can reuse. Rather than write giant single execution programs, we break the code up into smaller blocks that we call functions(). A function can take different inputs, known as arguments, such as variables, lists, dictionaries, and tuples, as input that will be passed to the function upon execution. Functions do not require arguments to be passed in, but it is common to see. For example, a simple function that prints a message does not need anything else to execute successfully, whereas a custom message that would require, say, a device hostname as part of the message will need that hostname passed in at runtime. 
